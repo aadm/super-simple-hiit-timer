@@ -98,6 +98,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   ];
 
+  createPredefinedExerciseButtons();
+  createPredefinedWorkoutButtons();
+  // **Event listener for the "Toggle Quick Add Exercises" button:**
+  togglePredefinedExercisesBtn.addEventListener('click', () => {
+    if (predefinedExercisesContainer.style.display === 'none') {
+      // If currently hidden, show it
+      predefinedExercisesContainer.style.display = 'block'; /* Or 'flex' if you were using flexbox layout inside */
+      togglePredefinedExercisesBtn.textContent = 'Hide Quick Add Exercises'; // Change button text
+    } else {
+      // If currently visible, hide it
+      predefinedExercisesContainer.style.display = 'none';
+      togglePredefinedExercisesBtn.textContent = 'Show Quick Add Exercises'; // Change button text back
+    }
+  });
+
   let exercises = [];
   let currentExerciseIndex = 0;
   let timerInterval;
