@@ -40,7 +40,7 @@ h3 {
 #controls,
 #exercise-list,
 #rest-input {
-  margin-bottom: 25px;
+  margin-bottom: 35px;
 }
 
 input[type="text"],
@@ -54,6 +54,7 @@ input[type="number"] {
   /* Slightly more rounded inputs */
   font-size: 1em;
   /* Input text size same as base font */
+  margin-bottom: 10px;
 }
 
 
