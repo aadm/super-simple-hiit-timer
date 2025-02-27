@@ -12,10 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const greenwichPips = document.getElementById('greenwich-pips');
   const restDurationInput = document.getElementById('rest-duration');
   const predefinedExerciseButtonsDiv = document.getElementById('predefined-exercise-buttons');
-  const predefinedWorkoutButtonsDiv = document.getElementById('predefined-workout-buttons'); // Get workout buttons div
-
-  const predefinedExercisesContainer = document.getElementById('predefined-exercises-container'); // Get the container
-  const togglePredefinedExercisesBtn = document.getElementById('toggle-predefined-exercises-btn'); // Get the toggle button
+  const predefinedWorkoutButtonsDiv = document.getElementById('predefined-workout-buttons');
+  const predefinedExercisesContainer = document.getElementById('predefined-exercises-container');
+  const togglePredefinedExercisesBtn = document.getElementById('toggle-predefined-exercises-btn');
 
   // **Predefined Exercise List:**
   const predefinedExercises = [
@@ -98,8 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   ];
 
-  createPredefinedExerciseButtons();
-  createPredefinedWorkoutButtons();
+
   // **Event listener for the "Toggle Quick Add Exercises" button:**
   togglePredefinedExercisesBtn.addEventListener('click', () => {
     if (predefinedExercisesContainer.style.display === 'none') {
@@ -158,6 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // **Call the function to create buttons when the page loads:**
   createPredefinedExerciseButtons();
+
 
   addExerciseBtn.addEventListener('click', () => {
     const name = exerciseNameInput.value.trim();
