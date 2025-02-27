@@ -1,3 +1,4 @@
+/* --- Base Styles (adjust these for mobile) --- */
 body {
   font-family: sans-serif;
   display: flex;
@@ -6,18 +7,32 @@ body {
   min-height: 100vh;
   margin: 0;
   background-color: #f4f4f4;
+  font-size: 18px;
+  /* **Increase base font size for better readability on phones** */
 }
-
 .container {
   background-color: white;
   padding: 30px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: center;
+  width: 95%;
+  /* **Make container width responsive to screen width** */
+  max-width: 600px;
+  /* **Optional: Limit max width on larger screens (tablets, etc.)** */
+  margin: 20px auto;
+  /* Center container and add some margin */
 }
 
 h1 {
   margin-bottom: 20px;
+  font-size: 2.5em;
+  /* Slightly larger heading */
+}
+
+h3 {
+  font-size: 1.4em;
+  /* Larger subheadings */
 }
 
 #exercise-input,
@@ -25,25 +40,35 @@ h1 {
 #controls,
 #exercise-list,
 #rest-input {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 input[type="text"],
 input[type="number"] {
-  padding: 8px;
-  margin-right: 5px;
+  padding: 12px;
+  /* **Larger input padding for easier tapping** */
+  margin-right: 10px;
+  /* More margin */
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 6px;
+  /* Slightly more rounded inputs */
+  font-size: 1em;
+  /* Input text size same as base font */
 }
 
+
 button {
-  padding: 10px 15px;
+  padding: 14px 20px;
+  /* **Larger button padding for touch targets** */
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
+  /* Slightly more rounded buttons */
   background-color: #007bff;
   /* Blue button */
   color: white;
   cursor: pointer;
+  font-size: 1.1em;
+  /* Slightly larger button text */
 }
 
 button:disabled {
@@ -52,14 +77,20 @@ button:disabled {
 }
 
 #countdown {
-  font-size: 2em;
-  margin-top: 10px;
+  font-size: 3em;
+  /* **Larger countdown timer display** */
+  margin-top: 15px;
+  margin-bottom: 20px;
+  /* Add some bottom margin */
 }
 
 #exercise-list li {
   list-style: none;
-  padding: 8px 0;
+  padding: 12px 0;
+  /* More padding in exercise list */
   border-bottom: 1px dashed #eee;
+  font-size: 1.1em;
+  /* Slightly larger exercise list text */
 }
 
 #exercise-list li:last-child {
@@ -112,17 +143,21 @@ button:disabled {
   /* Center buttons */
 }
 
-#predefined-workout-buttons button {
-  padding: 10px 15px;
+#predefined-workout-buttons button,
+#predefined-exercise-buttons button {
+  padding: 12px 18px;
+  /* **Larger padding for predefined buttons** */
   font-size: 1em;
-  background-color: #c8e6c9;
-  /* Light green background */
-  color: #333;
-  border: 1px solid #a5d6a7;
-  /* Light green border */
+  /* Slightly larger predefined button text */
+  border-radius: 6px;
+  /* Slightly more rounded predefined buttons */
+  margin-bottom: 8px;
+  /* Add some bottom margin between predefined buttons if they wrap */
 }
 
-#predefined-workout-buttons button:hover {
-  background-color: #b8daba;
-  /* Slightly darker on hover */
+/* --- Layout adjustments for smaller screens --- */
+#predefined-workout-buttons,
+#predefined-exercise-buttons {
+  justify-content: space-around;
+  /* **Distribute buttons more evenly on phone screens** */
 }
