@@ -102,6 +102,14 @@ button:disabled {
   margin-bottom: 20px;
 }
 
+/* Initially hide the predefined exercises section */
+#predefined-exercises-container {
+  display: none;
+  /* **Initially hide the container** */
+  margin-bottom: 20px;
+  /* Add some margin if it's shown */
+}
+
 #predefined-exercise-buttons {
   display: flex;
   /* Arrange buttons in a row */
