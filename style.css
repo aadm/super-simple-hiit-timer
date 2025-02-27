@@ -110,6 +110,27 @@ button:disabled {
   /* Add some margin if it's shown */
 }
 
+/* Style for the toggle button */
+#toggle-predefined-exercises-btn {
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  /* Grey border */
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  /* Light grey background */
+  color: #333;
+  cursor: pointer;
+  margin-bottom: 10px;
+  /* Space below the toggle button */
+  font-size: 0.9em;
+  /* Slightly smaller font for toggle button */
+}
+
+#toggle-predefined-exercises-btn:hover {
+  background-color: #eee;
+  /* Slightly darker on hover */
+}
+
 #predefined-exercise-buttons {
   display: flex;
   /* Arrange buttons in a row */

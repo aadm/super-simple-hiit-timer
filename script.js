@@ -14,7 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const predefinedExerciseButtonsDiv = document.getElementById('predefined-exercise-buttons');
   const predefinedWorkoutButtonsDiv = document.getElementById('predefined-workout-buttons'); // Get workout buttons div
 
-  
+  const predefinedExercisesContainer = document.getElementById('predefined-exercises-container'); // Get the container
+  const togglePredefinedExercisesBtn = document.getElementById('toggle-predefined-exercises-btn'); // Get the toggle button
+
   // **Predefined Exercise List:**
   const predefinedExercises = [
     { name: "Jumping Jacks", duration: 30 },
