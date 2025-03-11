@@ -61,10 +61,9 @@ const predefinedWorkouts = [
 
 
 // --- 3. Function Definitions (Global Scope - IMPORTANT: OUTSIDE DOMContentLoaded) ---
-
 function startTimer() {
   console.log("startTimer() called - FUNCTION START");
-  console.log("timerRunning:", timerRunning, "pausedTime:", pausedTime);
+  console.log("timerRunning:", timerRunning, "timeLeft:", timeLeft);
 
   timerInterval = undefined; // *** EXPLICITLY RESET timerInterval at start of startTimer() ***
   console.log("startTimer() - BEFORE setting interval - timerInterval reset to:", timerInterval);
@@ -75,12 +74,12 @@ function startTimer() {
     pauseBtn.disabled = false;
     resetBtn.disabled = false;
 
-    if (pausedTime > 0) {
-      console.log("Resuming from paused time:", pausedTime);
-      timeLeft = pausedTime;
-      pausedTime = 0;
+    // --- RESUME LOGIC IS NOW SIMPLIFIED and CHECKING timeLeft DIRECTLY ---
+    if (timeLeft > 0) { // **CHECK if timeLeft is ALREADY > 0 - if yes, it's a RESUME**
+      console.log("Resuming interval - timeLeft is:", timeLeft); // RESUME SCENARIO
+      // **timeLeft is already set to the paused value, so NO need to reset it here.**
     } else {
-      console.log("Starting new exercise interval");
+      console.log("Starting new exercise interval - timeLeft was:", timeLeft); // NEW INTERVAL SCENARIO
       if (exercises.length === 0) {
         currentExerciseDisplay.textContent = "No exercises added!";
         stopTimer();
@@ -96,22 +95,22 @@ function startTimer() {
       }
     }
 
+
     console.log("startTimer() - Before setInterval, timerInterval:", timerInterval);
     timerInterval = setInterval(function () {
       if (timerRunning) { // **Check timerRunning INSIDE setInterval callback**
         updateCountdownDisplay();
 
         if (timeLeft === 5) { // **Play Greenwich Pips when timeLeft is exactly 5 seconds (BEFORE exercise ends)**
-          console.log("Starting Greenwich Pips countdown at timeLeft:", timeLeft); // Debug log
-          playGreenwichPips(); // Play pips 5 seconds before exercise ends
+          console.log("Starting Greenwich Pips countdown at timeLeft:", timeLeft);
+          playGreenwichPips();
         }
-
 
         if (timeLeft <= 0) {
           console.log("Exercise interval finished, timeLeft at end:", timeLeft);
           clearInterval(timerInterval);
           // timerRunning = false; // Delayed setting
-          // playGreenwichPips(); // DO NOT play pips again HERE at the very end - played at 5 seconds
+          // playGreenwichPips(); // DO NOT play pips again HERE
           currentExerciseIndex++;
           if (currentExerciseIndex < exercises.length) {
             startRestTimer();
@@ -126,15 +125,13 @@ function startTimer() {
         }
         timeLeft--;
       } else {
-        console.log("Timer is paused - inside setInterval, timeLeft NOT decremented"); // Log when paused
-        // timeLeft is NOT decremented when timerRunning is false (when paused)
+        console.log("Timer is paused - inside setInterval, timeLeft NOT decremented");
       }
     }, 1000);
     console.log("startTimer() - After setInterval, timerInterval:", timerInterval);
   }
   console.log("startTimer() finished - FUNCTION END");
 }
-
 
 function pauseTimer() {
   console.log("pauseTimer() called - FUNCTION START");
