@@ -170,6 +170,8 @@ function startRestTimer() {
     currentExerciseDisplay.textContent = "Rest";
     timeLeft = restDuration;
     console.log("Starting Rest Interval - duration:", restDuration, "seconds");
+    timerInterval = undefined; // *** EXPLICITLY RESET timerInterval at start of startRestTimer() ***
+
     console.log("startRestTimer() - Before setInterval, timerInterval:", timerInterval); // Log BEFORE setInterval in startRestTimer
 
     timerInterval = setInterval(function() {
