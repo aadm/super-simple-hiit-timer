@@ -270,6 +270,53 @@ document.addEventListener('DOMContentLoaded', () => {
     workoutState = 'idle';
   });
 
+  function startTimer() {
+    if (!timerRunning) { // Only start if not already running
+      timerRunning = true;
+      startBtn.disabled = true;
+      pauseBtn.disabled = false;
+      resetBtn.disabled = false;
+
+      if (pausedTime > 0) { // **Check if timer was paused**
+        timeLeft = pausedTime; // **Resume from paused time**
+        pausedTime = 0;       // **Reset pausedTime**
+      } else { // **Otherwise, start a new interval (as before)**
+        if (exercises.length === 0) {
+          currentExerciseDisplay.textContent = "No exercises added!";
+          stopTimer(); // Stop timer immediately if no exercises
+          return;
+        }
+        if (currentExerciseIndex < exercises.length) {
+          timeLeft = exercises[currentExerciseIndex].duration;
+          currentExerciseDisplay.textContent = exercises[currentExerciseIndex].name;
+        } else {
+          currentExerciseDisplay.textContent = "Workout Complete!";
+          stopTimer();
+          return;
+        }
+      }
+
+      timerInterval = setInterval(function () {
+        updateCountdownDisplay();
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          timerRunning = false; // Timer stopped for this interval
+          playBeep();
+          currentExerciseIndex++;
+          if (currentExerciseIndex < exercises.length) {
+            startRestTimer(); // Start rest after exercise
+          } else {
+            currentExerciseDisplay.textContent = "Workout Complete!";
+            countdownDisplay.textContent = "Well done!";
+            startBtn.disabled = true; // Disable start after workout complete
+            pauseBtn.disabled = true;
+            resetBtn.disabled = false; // Allow reset
+          }
+        }
+        timeLeft--;
+      }, 1000);
+    }
+  }
   function stopTimer() {
     clearInterval(timerInterval);
     isRunning = false;
