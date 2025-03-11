@@ -1,3 +1,5 @@
+console.log(); // *** DEBUG LOG ***
+
 document.addEventListener('DOMContentLoaded', () => {
 
   const exerciseNameInput = document.getElementById('exercise-name');
