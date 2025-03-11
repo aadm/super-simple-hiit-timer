@@ -278,7 +278,7 @@ function addExercise() {
     exercises.push({ name: name, duration: duration }); // Add the exercise
     exercises.push({ name: 'Rest', duration: parseInt(restDurationInput.value) }); // **Dynamically ADD a "Rest" interval AFTER manual exercise**
     exerciseNameInput.value = '';
-    exerciseDurationInput.value = '10'; // Reset to default value
+    exerciseDurationInput.value = '20'; // Reset to default value
     exercises.pop(); // **IMPORTANT:** Remove the *last* "Rest" interval added, because we don't want a rest period after the final exercise of the workout.
     updateExerciseDisplay();
   }
