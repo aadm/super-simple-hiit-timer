@@ -90,72 +90,72 @@ function startTimer() {
         resetBtn.disabled = false;
 
       if (timeLeft <= 0 || isNaN(timeLeft)) { // Check if timeLeft is 0, negative, or NaN (start fresh)
-            console.log("Resuming from paused time:", pausedTime);
-            timeLeft = pausedTime;
-            pausedTime = 0;
+          console.log("Starting new interval - timeLeft was:", timeLeft);
+          if (exercises.length === 0) {
+            currentExerciseDisplay.textContent = "No exercises added!";
+            stopTimer();
+            return;
+          }
+          if (currentExerciseIndex < exercises.length) {
+            timeLeft = exercises[currentExerciseIndex].duration;
+            currentExerciseDisplay.textContent = exercises[currentExerciseIndex].name;
+          } else {
+            currentExerciseDisplay.textContent = "Workout Complete!";
+            stopTimer();
+            return;
+          }
         } else {
-            console.log("Starting new interval");
-            if (exercises.length === 0) {
-                currentExerciseDisplay.textContent = "No exercises added!";
-                stopTimer();
-                return;
-            }
-            if (currentExerciseIndex < exercises.length) {
-                timeLeft = exercises[currentExerciseIndex].duration;
-                currentExerciseDisplay.textContent = exercises[currentExerciseIndex].name;
-            } else {
-                currentExerciseDisplay.textContent = "Workout Complete!";
-                stopTimer();
-                return;
-            }
+          console.log("Resuming interval - timeLeft is:", timeLeft); // Resuming from existing timeLeft
         }
-        console.log("startTimer() - Before setInterval, timerInterval:", timerInterval); // Log BEFORE setInterval in startTimer
-        timerInterval = setInterval(function() {
-            updateCountdownDisplay();
 
-            if (timeLeft === 5) { // **Play Greenwich Pips when timeLeft is exactly 5 seconds (BEFORE exercise ends)**
-              console.log("Starting Greenwich Pips countdown at timeLeft:", timeLeft); // Debug log
-              playGreenwichPips(); // Play pips 5 seconds before exercise ends
+      timerInterval = setInterval(function () {
+        if (timerRunning) { // **Check timerRunning INSIDE setInterval callback**
+          updateCountdownDisplay();
+          if (timeLeft <= 0) {
+            console.log("Interval finished, timeLeft at end:", timeLeft);
+            clearInterval(timerInterval);
+            timerRunning = false;
+            playGreenwichPips();
+            currentExerciseIndex++;
+            if (currentExerciseIndex < exercises.length) {
+              startRestTimer();
+            } else {
+              currentExerciseDisplay.textContent = "Workout Complete!";
+              countdownDisplay.textContent = "Well done!";
+              startBtn.disabled = true;
+              pauseBtn.disabled = true;
+              resetBtn.disabled = false;
             }
-
-            if (timeLeft <= 0) {
-                console.log("Interval finished, timeLeft at end:", timeLeft);
-                clearInterval(timerInterval);
-                currentExerciseIndex++;
-                if (currentExerciseIndex < exercises.length) {
-                    startRestTimer();
-                } else {
-                    currentExerciseDisplay.textContent = "Workout Complete!";
-                    countdownDisplay.textContent = "Well done!";
-                    startBtn.disabled = true;
-                    pauseBtn.disabled = true;
-                    resetBtn.disabled = false;
-                }
-                timerRunning = false;
-            }
-            timeLeft--;
-        }, 1000);
+          }
+          timeLeft--;
+        } else {
+          console.log("Timer is paused - inside setInterval, timeLeft NOT decremented"); // Log when paused
+          // timeLeft is NOT decremented when timerRunning is false (when paused)
+        }
+      }, 1000);
     }
-    console.log("startTimer() finished - FUNCTION END"); // Debug log at function end
+    console.log("startTimer() finished - FUNCTION END");
 }
 
 
-function pauseTimer() {
-    console.log("pauseTimer() called - FUNCTION START"); // Debug log at function start
-    console.log("timerRunning:", timerRunning, "timeLeft:", timeLeft); // Debug log
 
-    if (timerRunning) {
-        clearInterval(timerInterval);
-        timerRunning = false;
-        pausedTime = timeLeft;
-        console.log("Timer paused, pausedTime set to:", pausedTime);
-        startBtn.disabled = false;
-        pauseBtn.disabled = true;
-        resetBtn.disabled = false;
-    } else {
-      console.log("pauseTimer() - timerRunning is FALSE, pause action skipped");
-    }
-    console.log("pauseTimer() finished - FUNCTION END");
+
+// --- Revised pauseTimer() function (Simplified) ---
+function pauseTimer() {
+  console.log("pauseTimer() called - FUNCTION START");
+  console.log("pauseTimer() - timerRunning:", timerRunning, "timeLeft:", timeLeft, "timerInterval:", timerInterval);
+
+  if (timerRunning) {
+    timerRunning = false; // **Just set timerRunning to false** - to stop decrementing in setInterval
+    clearInterval(timerInterval); // Still clear the interval for safety and to prevent potential memory leaks
+    console.log("Timer paused - timerRunning set to FALSE, timerInterval cleared:", timerInterval);
+    startBtn.disabled = false;
+    pauseBtn.disabled = true;
+    resetBtn.disabled = false;
+  } else {
+    console.log("pauseTimer() - timerRunning is FALSE, pause action skipped");
+  }
+  console.log("pauseTimer() finished - FUNCTION END");
 }
 
 function updateCountdownDisplay() {
