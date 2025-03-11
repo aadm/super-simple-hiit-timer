@@ -271,6 +271,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function startTimer() {
+    console.log("startTimer() called"); // *** DEBUG LOG ***
+    console.log("timerRunning:", timerRunning, "pausedTime:", pausedTime); // *** DEBUG LOG ***
+
     if (!timerRunning) { // Only start if not already running
       timerRunning = true;
       startBtn.disabled = true;
@@ -319,6 +322,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function pauseTimer() {
+    console.log("pauseTimer() called"); // *** DEBUG LOG ***
+    console.log("timerRunning:", timerRunning, "timeLeft:", timeLeft); // *** DEBUG LOG ***
+
     if (timerRunning) { // Only pause if timer is running
       clearInterval(timerInterval);
       timerRunning = false;
