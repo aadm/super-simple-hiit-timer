@@ -1,3 +1,74 @@
+
+function startTimer() {
+  console.log("startTimer() called"); // *** DEBUG LOG ***
+  console.log("timerRunning:", timerRunning, "pausedTime:", pausedTime); // *** DEBUG LOG ***
+
+  if (!timerRunning) { // Only start if not already running
+    timerRunning = true;
+    startBtn.disabled = true;
+    pauseBtn.disabled = false;
+    resetBtn.disabled = false;
+
+    if (pausedTime > 0) { // **Check if timer was paused**
+      timeLeft = pausedTime; // **Resume from paused time**
+      pausedTime = 0;       // **Reset pausedTime**
+    } else { // **Otherwise, start a new interval (as before)**
+      if (exercises.length === 0) {
+        currentExerciseDisplay.textContent = "No exercises added!";
+        stopTimer(); // Stop timer immediately if no exercises
+        return;
+      }
+      if (currentExerciseIndex < exercises.length) {
+        timeLeft = exercises[currentExerciseIndex].duration;
+        currentExerciseDisplay.textContent = exercises[currentExerciseIndex].name;
+      } else {
+        currentExerciseDisplay.textContent = "Workout Complete!";
+        stopTimer();
+        return;
+      }
+    }
+
+    timerInterval = setInterval(function () {
+      updateCountdownDisplay();
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        timerRunning = false; // Timer stopped for this interval
+        playBeep();
+        currentExerciseIndex++;
+        if (currentExerciseIndex < exercises.length) {
+          startRestTimer(); // Start rest after exercise
+        } else {
+          currentExerciseDisplay.textContent = "Workout Complete!";
+          countdownDisplay.textContent = "Well done!";
+          startBtn.disabled = true; // Disable start after workout complete
+          pauseBtn.disabled = true;
+          resetBtn.disabled = false; // Allow reset
+        }
+      }
+      timeLeft--;
+    }, 1000);
+  }
+}
+
+function pauseTimer() {
+  console.log("pauseTimer() called"); // *** DEBUG LOG ***
+  console.log("timerRunning:", timerRunning, "timeLeft:", timeLeft); // *** DEBUG LOG ***
+
+  if (timerRunning) { // Only pause if timer is running
+    clearInterval(timerInterval);
+    timerRunning = false;
+    pausedTime = timeLeft; // **Store the remaining time**
+    startBtn.disabled = false;  // Enable Start to resume
+    pauseBtn.disabled = true;   // Disable Pause
+    resetBtn.disabled = false;
+  }
+}
+
+function stopTimer() {
+  clearInterval(timerInterval);
+  timerRunning = false;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 
   const exerciseNameInput = document.getElementById('exercise-name');
@@ -275,75 +346,5 @@ document.addEventListener('DOMContentLoaded', () => {
     resetBtn.disabled = true;
     workoutState = 'idle';
   });
-
-  function startTimer() {
-    console.log("startTimer() called"); // *** DEBUG LOG ***
-    console.log("timerRunning:", timerRunning, "pausedTime:", pausedTime); // *** DEBUG LOG ***
-
-    if (!timerRunning) { // Only start if not already running
-      timerRunning = true;
-      startBtn.disabled = true;
-      pauseBtn.disabled = false;
-      resetBtn.disabled = false;
-
-      if (pausedTime > 0) { // **Check if timer was paused**
-        timeLeft = pausedTime; // **Resume from paused time**
-        pausedTime = 0;       // **Reset pausedTime**
-      } else { // **Otherwise, start a new interval (as before)**
-        if (exercises.length === 0) {
-          currentExerciseDisplay.textContent = "No exercises added!";
-          stopTimer(); // Stop timer immediately if no exercises
-          return;
-        }
-        if (currentExerciseIndex < exercises.length) {
-          timeLeft = exercises[currentExerciseIndex].duration;
-          currentExerciseDisplay.textContent = exercises[currentExerciseIndex].name;
-        } else {
-          currentExerciseDisplay.textContent = "Workout Complete!";
-          stopTimer();
-          return;
-        }
-      }
-
-      timerInterval = setInterval(function () {
-        updateCountdownDisplay();
-        if (timeLeft <= 0) {
-          clearInterval(timerInterval);
-          timerRunning = false; // Timer stopped for this interval
-          playBeep();
-          currentExerciseIndex++;
-          if (currentExerciseIndex < exercises.length) {
-            startRestTimer(); // Start rest after exercise
-          } else {
-            currentExerciseDisplay.textContent = "Workout Complete!";
-            countdownDisplay.textContent = "Well done!";
-            startBtn.disabled = true; // Disable start after workout complete
-            pauseBtn.disabled = true;
-            resetBtn.disabled = false; // Allow reset
-          }
-        }
-        timeLeft--;
-      }, 1000);
-    }
-  }
-
-  function pauseTimer() {
-    console.log("pauseTimer() called"); // *** DEBUG LOG ***
-    console.log("timerRunning:", timerRunning, "timeLeft:", timeLeft); // *** DEBUG LOG ***
-
-    if (timerRunning) { // Only pause if timer is running
-      clearInterval(timerInterval);
-      timerRunning = false;
-      pausedTime = timeLeft; // **Store the remaining time**
-      startBtn.disabled = false;  // Enable Start to resume
-      pauseBtn.disabled = true;   // Disable Pause
-      resetBtn.disabled = false;
-    }
-  }
-
-  function stopTimer() {
-    clearInterval(timerInterval);
-    timerRunning = false;
-  }
 
 });
