@@ -82,8 +82,6 @@ function startTimer() {
     console.log("startTimer() called - FUNCTION START"); // Debug log at function start
     console.log("timerRunning:", timerRunning, "pausedTime:", pausedTime); // Debug log
 
-    timerInterval = undefined; // *** EXPLICITLY RESET timerInterval at start of startTimer() ***
-    console.log("startTimer() - BEFORE setting interval - timerInterval reset to:", timerInterval); // Log reset value
 
     if (!timerRunning) {
         timerRunning = true;
@@ -91,7 +89,7 @@ function startTimer() {
         pauseBtn.disabled = false;
         resetBtn.disabled = false;
 
-        if (pausedTime > 0) {
+      if (timeLeft <= 0 || isNaN(timeLeft)) { // Check if timeLeft is 0, negative, or NaN (start fresh)
             console.log("Resuming from paused time:", pausedTime);
             timeLeft = pausedTime;
             pausedTime = 0;
