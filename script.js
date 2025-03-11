@@ -204,39 +204,47 @@ function playBeep() {
 //   console.log("startRestTimer() - After setInterval, timerInterval:", timerInterval);
 // }
 
-
 function startRestTimer() {
   currentExerciseDisplay.textContent = "Rest";
   console.log("Starting Rest Interval - duration:", restDuration, "seconds");
 
   timerInterval = undefined; // *** EXPLICITLY RESET timerInterval at start of startRestTimer() ***
-  console.log("startRestTimer() - BEFORE setting interval - timerInterval reset to:", timerInterval);
-
-  // --- ADD RESUME LOGIC to startRestTimer() - Mirroring startTimer() ---
-  if (timeLeft > 0) { // **CHECK if timeLeft is ALREADY > 0 - if yes, it's a RESUME in REST**
-    console.log("Resuming REST interval - timeLeft is:", timeLeft); // RESUME REST SCENARIO
-    // **timeLeft is already set to the paused value, so NO need to reset it here.**
-  } else {
-    timeLeft = restDuration; // **If NOT resuming, it's a NEW REST interval, so set timeLeft to restDuration**
-    console.log("Starting NEW REST interval - timeLeft was:", timeLeft, "now set to restDuration:", restDuration); // NEW REST SCENARIO
-  }
-  console.log("startRestTimer() - timeLeft at START of rest interval:", timeLeft); // Log timeLeft at START of rest
+  console.log("startRestTimer() - BEFORE setting interval - timerInterval reset to:", timerInterval); // Log reset value
 
 
-  console.log("startRestTimer() - Before setInterval, timerInterval:", timerInterval);
-  timerInterval = setInterval(function () {
-    updateCountdownDisplay();
-    if (timeLeft <= 0) {
-      console.log("Rest interval finished, timeLeft at end:", timeLeft);
-      clearInterval(timerInterval);
-      timerRunning = false;
-      playBeep();
-      currentExerciseIndex++;
-      startTimer();
+  if (!timerRunning) {
+    timerRunning = true; // Set timerRunning to true at start of rest interval
+    startBtn.disabled = true;
+    pauseBtn.disabled = false;
+    resetBtn.disabled = false;
+
+
+    // --- RESUME LOGIC for REST INTERVAL ---
+    if (timeLeft > 0) { // **CHECK if timeLeft is ALREADY > 0 - if yes, it's a RESUME for REST**
+      console.log("Resuming REST interval - timeLeft is:", timeLeft); // RESUME SCENARIO for REST
+      // **timeLeft is already set to the paused value, NO need to reset.**
+    } else {
+      console.log("Starting NEW REST interval - timeLeft was:", timeLeft, "now set to restDuration:", restDuration); // NEW REST INTERVAL SCENARIO
+      timeLeft = restDuration; // **SET timeLeft to restDuration for NEW REST interval (only if not resuming)**
     }
-    timeLeft--;
-  }, 1000);
-  console.log("startRestTimer() - After setInterval, timerInterval:", timerInterval);
+    console.log("startRestTimer() - timeLeft at START of rest interval:", timeLeft); // Log timeLeft at start of rest interval
+
+
+    console.log("startRestTimer() - Before setInterval, timerInterval:", timerInterval);
+    timerInterval = setInterval(function () {
+      updateCountdownDisplay();
+      if (timeLeft <= 0) {
+        console.log("Rest interval finished, timeLeft at end:", timeLeft);
+        clearInterval(timerInterval);
+        timerRunning = false;
+        playBeep();
+        currentExerciseIndex++;
+        startTimer();
+      }
+      timeLeft--;
+    }, 1000);
+    console.log("startRestTimer() - After setInterval, timerInterval:", timerInterval);
+  }
 }
 
 function stopTimer() {
