@@ -180,62 +180,38 @@ function playBeep() {
 }
 
 function startRestTimer() {
-  currentExerciseDisplay.textContent = "Rest";
-  timeLeft = restDuration;
-  console.log("Starting Rest Interval - duration:", restDuration, "seconds");
+    currentExerciseDisplay.textContent = "Rest";
+    console.log("Starting Rest Interval - duration:", restDuration, "seconds");
 
-  timerInterval = undefined; // *** EXPLICITLY RESET timerInterval at start of startRestTimer() ***
-  console.log("startRestTimer() - BEFORE setting interval - timerInterval reset to:", timerInterval); // Log reset value
+    timerInterval = undefined; // *** EXPLICITLY RESET timerInterval at start of startRestTimer() ***
+    console.log("startRestTimer() - BEFORE setting interval - timerInterval reset to:", timerInterval);
 
-
-  console.log("startRestTimer() - Before setInterval, timerInterval:", timerInterval);
-  timerInterval = setInterval(function () {
-    updateCountdownDisplay();
-    if (timeLeft <= 0) {
-      console.log("Rest interval finished, timeLeft at end:", timeLeft);
-      clearInterval(timerInterval);
-      timerRunning = false;
-      playBeep();
-      currentExerciseIndex++;
-      startTimer();
+    // --- ADD RESUME LOGIC to startRestTimer() - Mirroring startTimer() ---
+    if (timeLeft > 0) { // **CHECK if timeLeft is ALREADY > 0 - if yes, it's a RESUME in REST**
+        console.log("Resuming REST interval - timeLeft is:", timeLeft); // RESUME REST SCENARIO
+        // **timeLeft is already set to the paused value, so NO need to reset it here.**
+    } else {
+        timeLeft = restDuration; // **If NOT resuming, it's a NEW REST interval, so set timeLeft to restDuration**
+        console.log("Starting NEW REST interval - timeLeft was:", timeLeft, "now set to restDuration:", restDuration); // NEW REST SCENARIO
     }
-    timeLeft--;
-  }, 1000);
-  console.log("startRestTimer() - After setInterval, timerInterval:", timerInterval);
+    console.log("startRestTimer() - timeLeft at START of rest interval:", timeLeft); // Log timeLeft at START of rest
+
+
+    console.log("startRestTimer() - Before setInterval, timerInterval:", timerInterval);
+    timerInterval = setInterval(function() {
+        updateCountdownDisplay();
+        if (timeLeft <= 0) {
+            console.log("Rest interval finished, timeLeft at end:", timeLeft);
+            clearInterval(timerInterval);
+            timerRunning = false;
+            playBeep();
+            currentExerciseIndex++;
+            startTimer();
+        }
+        timeLeft--;
+    }, 1000);
+    console.log("startRestTimer() - After setInterval, timerInterval:", timerInterval);
 }
-
-function stopTimer() {
-  timerRunning = false;
-  clearInterval(timerInterval);
-  startBtn.disabled = false;
-  pauseBtn.disabled = true;
-  resetBtn.disabled = false;
-}
-
-function playGreenwichPips() {
-  console.log("playGreenwichPips() called - playing pips now");
-  greenwichPips.play();
-}
-
-
-function updateExerciseDisplay() {
-  exerciseListUl.innerHTML = ''; // Clear existing list
-  exercises.forEach((exercise, index) => {
-    const listItem = document.createElement('li');
-    listItem.textContent = `${exercise.name} (${exercise.duration} seconds) `;
-
-    const deleteButton = document.createElement('button');
-    deleteButton.textContent = 'X';
-    deleteButton.classList.add('delete-exercise-btn'); // Add class for styling if needed
-    deleteButton.addEventListener('click', () => {
-      exercises.splice(index, 1); // Remove exercise from array
-      updateExerciseDisplay(); // Re-render the list
-    });
-    listItem.appendChild(deleteButton);
-    exerciseListUl.appendChild(listItem);
-  });
-}
-
 
 function addExercise() {
   const name = exerciseNameInput.value.trim();
