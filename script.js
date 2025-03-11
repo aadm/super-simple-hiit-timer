@@ -1,4 +1,4 @@
-console.log(); // *** DEBUG LOG ***
+console.log("Script.js file is loaded and running!"); // *** BASIC TEST LOG ***
 
 document.addEventListener('DOMContentLoaded', () => {
 
