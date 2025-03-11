@@ -110,7 +110,6 @@ function startTimer() {
             if (timeLeft <= 0) {
                 console.log("Interval finished, timeLeft at end:", timeLeft);
                 clearInterval(timerInterval);
-                timerRunning = false;
                 currentExerciseIndex++;
                 if (currentExerciseIndex < exercises.length) {
                     startRestTimer();
@@ -121,6 +120,7 @@ function startTimer() {
                     pauseBtn.disabled = true;
                     resetBtn.disabled = false;
                 }
+                timerRunning = false;
             }
             timeLeft--;
         }, 1000);
