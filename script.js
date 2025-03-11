@@ -250,8 +250,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   pauseBtn.addEventListener('click', () => {
-    if (isRunning) {
-      isRunning = false;
+    if (timerRunning) {
+      timerRunning = false;
       clearInterval(timerInterval);
       pauseBtn.disabled = true;
       startBtn.disabled = false;
@@ -260,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   resetBtn.addEventListener('click', () => {
     stopTimer();
-    isRunning = false;
+    timerRunning = false;
     exercises = [];
     updateExerciseListDisplay();
     currentExerciseIndex = 0;
@@ -339,7 +339,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function stopTimer() {
     clearInterval(timerInterval);
-    isRunning = false;
+    timerRunning = false;
   }
 
 });
