@@ -82,6 +82,9 @@ function startTimer() {
     console.log("startTimer() called - FUNCTION START"); // Debug log at function start
     console.log("timerRunning:", timerRunning, "pausedTime:", pausedTime); // Debug log
 
+    timerInterval = undefined; // *** EXPLICITLY RESET timerInterval at start of startTimer() ***
+    console.log("startTimer() - BEFORE setting interval - timerInterval reset to:", timerInterval); // Log reset value
+
     if (!timerRunning) {
         timerRunning = true;
         startBtn.disabled = true;
