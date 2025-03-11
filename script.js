@@ -157,22 +157,6 @@ function pauseTimer() {
     console.log("pauseTimer() finished - FUNCTION END");
 }
 
-function resetTimer() {
-    console.log("resetTimer() called - FUNCTION START"); // Debug log at function start
-    timerRunning = false;
-    pausedTime = 0;
-    currentExerciseIndex = 0;
-    exercises = []; // Clear exercises when reset
-    exerciseListUl.innerHTML = ''; // Clear displayed exercise list
-    countdownDisplay.textContent = "00:00";
-    currentExerciseDisplay.textContent = "Ready to Start!";
-    clearInterval(timerInterval); // Clear any existing interval
-    startBtn.disabled = false;
-    pauseBtn.disabled = true;
-    resetBtn.disabled = true;
-    console.log("resetTimer() finished - FUNCTION END"); // Debug log at function end
-}
-
 function updateCountdownDisplay() {
     const minutes = Math.floor(timeLeft / 60);
     const seconds = timeLeft % 60;
@@ -182,10 +166,15 @@ function updateCountdownDisplay() {
 function startRestTimer() {
     currentExerciseDisplay.textContent = "Rest";
     timeLeft = restDuration;
+    console.log("Starting Rest Interval - duration:", restDuration, "seconds");
+    console.log("startRestTimer() - Before setInterval, timerInterval:", timerInterval); // Log BEFORE setInterval in startRestTimer
+
     timerInterval = setInterval(function() {
         updateCountdownDisplay();
 
         if (timeLeft <= 0) {
+            console.log("Rest interval finished, timeLeft at end:", timeLeft);
+
             clearInterval(timerInterval);
             timerRunning = false;
             playBeep(); // **Play BEEPS at the END of REST** (SOUND REVERSED - NOW BEEPS FOR REST END)
@@ -194,6 +183,29 @@ function startRestTimer() {
         }
         timeLeft--;
     }, 1000);
+    console.log("startRestTimer() - After setInterval, timerInterval:", timerInterval); // Log AFTER setInterval in startRestTimer
+}
+
+
+function resetTimer() {
+  console.log("resetTimer() called - FUNCTION START"); // Debug log at function start
+  console.log("resetTimer() - timerInterval BEFORE clearInterval:", timerInterval); // Log BEFORE clearInterval in resetTimer
+  clearInterval(timerInterval);
+  timerInterval = undefined; // Explicitly set to undefined
+  console.log("resetTimer() - timerInterval AFTER clearInterval:", timerInterval); // Log AFTER clearInterval in resetTimer
+
+  timerRunning = false;
+  pausedTime = 0;
+  currentExerciseIndex = 0;
+  exercises = []; // Clear exercises when reset
+  exerciseListUl.innerHTML = ''; // Clear displayed exercise list
+  countdownDisplay.textContent = "00:00";
+  currentExerciseDisplay.textContent = "Ready to Start!";
+  clearInterval(timerInterval); // Clear any existing interval
+  startBtn.disabled = false;
+  pauseBtn.disabled = true;
+  resetBtn.disabled = true;
+  console.log("resetTimer() finished - FUNCTION END"); // Debug log at function end
 }
 
 function stopTimer() {
