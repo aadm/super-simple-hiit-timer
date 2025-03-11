@@ -317,6 +317,18 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 1000);
     }
   }
+
+  function pauseTimer() {
+    if (timerRunning) { // Only pause if timer is running
+      clearInterval(timerInterval);
+      timerRunning = false;
+      pausedTime = timeLeft; // **Store the remaining time**
+      startBtn.disabled = false;  // Enable Start to resume
+      pauseBtn.disabled = true;   // Disable Pause
+      resetBtn.disabled = false;
+    }
+  }
+
   function stopTimer() {
     clearInterval(timerInterval);
     isRunning = false;
