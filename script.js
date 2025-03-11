@@ -270,16 +270,22 @@ function updateExerciseDisplay() {
     exerciseListUl.appendChild(listItem);
   });
 }
-
 function addExercise() {
   const name = exerciseNameInput.value.trim();
   const duration = parseInt(exerciseDurationInput.value);
   if (name && !isNaN(duration) && duration > 0) {
     exercises.push({ name: name, duration: duration }); // Add the exercise
-    exercises.push({ name: 'Rest', duration: parseInt(restDurationInput.value) }); // **Dynamically ADD a "Rest" interval AFTER manual exercise**
+    exercises.push({ name: 'Rest', duration: parseInt(restDurationInput.value) }); // Dynamically ADD a "Rest" interval AFTER manual exercise
+
+    if (exercises.length > 1) { // **CONDITION: Pop only if exercises array has MORE than 1 item (meaning a rest was added after a previous exercise)**
+      exercises.pop(); // Remove the *last* "Rest" interval, IF it's not the *only* rest
+    } else if (exercises.length === 1 && exercises[0].name === 'Rest') {
+      exercises.pop(); // Remove rest if it's the only item and it's a rest (edge case handling, should not be needed in normal use, but for safety)
+    }
+
+
     exerciseNameInput.value = '';
     exerciseDurationInput.value = '20'; // Reset to default value
-    exercises.pop(); // **IMPORTANT:** Remove the *last* "Rest" interval added, because we don't want a rest period after the final exercise of the workout.
     updateExerciseDisplay();
   }
 }
