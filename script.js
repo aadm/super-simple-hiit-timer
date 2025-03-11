@@ -91,8 +91,17 @@ function startTimer() {
         pauseBtn.disabled = false;
         resetBtn.disabled = false;
 
+      if (timeLeft === 5) { // **Play Greenwich Pips when timeLeft is exactly 5 seconds (BEFORE exercise ends)**
+        console.log("Starting Greenwich Pips countdown at timeLeft:", timeLeft); // Debug log
+        playGreenwichPips(); // Play pips 5 seconds before exercise ends
+      }
+
+
       if (timeLeft <= 0 || isNaN(timeLeft)) { // Check if timeLeft is 0, negative, or NaN (start fresh)
-          console.log("Starting new interval - timeLeft was:", timeLeft);
+        console.log("Exercise interval finished, timeLeft at end:", timeLeft);
+        clearInterval(timerInterval);
+  
+        console.log("Starting new interval - timeLeft was:", timeLeft);
           if (exercises.length === 0) {
             currentExerciseDisplay.textContent = "No exercises added!";
             stopTimer();
