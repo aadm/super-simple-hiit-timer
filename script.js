@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+
   const exerciseNameInput = document.getElementById('exercise-name');
   const exerciseDurationInput = document.getElementById('exercise-duration');
   const addExerciseBtn = document.getElementById('add-exercise-btn');
@@ -15,6 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const predefinedWorkoutButtonsDiv = document.getElementById('predefined-workout-buttons');
   const predefinedExercisesContainer = document.getElementById('predefined-exercises-container');
   const togglePredefinedExercisesBtn = document.getElementById('toggle-predefined-exercises-btn');
+
+
 
   // **Predefined Exercise List:**
   const predefinedExercises = [
@@ -111,12 +114,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  let exercises = [];
-  let currentExerciseIndex = 0;
-  let timerInterval;
-  let timeLeft;
   let isRunning = false;
   let workoutState = 'idle';
+  let exercises = [];
+  let timerInterval; // Interval for countdown
+  let timeLeft;     // Time left in current interval (exercise or rest)
+  let currentExerciseIndex = 0;
+  let restDuration = parseInt(document.getElementById('rest-duration').value);
+  let timerRunning = false; // **NEW: Flag to track if timer is running**
+  let pausedTime = 0;      // **NEW: Variable to store paused time**
 
   // **Function to create and add predefined exercise buttons:**
   function createPredefinedExerciseButtons() {
