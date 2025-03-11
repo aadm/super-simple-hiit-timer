@@ -228,15 +228,14 @@ function startRestTimer() {
       timeLeft = restDuration; // **SET timeLeft to restDuration for NEW REST interval (only if not resuming)**
     }
     console.log("startRestTimer() - timeLeft at START of rest interval:", timeLeft); // Log timeLeft at start of rest interval
-
-
     console.log("startRestTimer() - Before setInterval, timerInterval:", timerInterval);
+
     timerInterval = setInterval(function () {
       updateCountdownDisplay();
       if (timeLeft <= 0) {
         console.log("Rest interval finished, timeLeft at end:", timeLeft);
         clearInterval(timerInterval);
-        timerRunning = false;
+        // timerRunning = false;
         playBeep();
         currentExerciseIndex++;
         startTimer();
