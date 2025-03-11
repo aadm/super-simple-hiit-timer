@@ -187,7 +187,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  startBtn.addEventListener('click', () => {
+  startBtn.addEventListener('click', function() {
+    console.log("Start button CLICKED! (Basic Listener Test)"); // *** VERY BASIC LOG ***
+
     if (exercises.length === 0 || timerRunning) return;
 
     timerRunning = true;
@@ -249,7 +251,9 @@ document.addEventListener('DOMContentLoaded', () => {
     countdownDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   }
 
-  pauseBtn.addEventListener('click', () => {
+  pauseBtn.addEventListener('click', function() {
+    console.log("Pause button CLICKED! (Basic Listener Test)"); // *** VERY BASIC LOG ***
+
     if (timerRunning) {
       timerRunning = false;
       clearInterval(timerInterval);
@@ -258,7 +262,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  resetBtn.addEventListener('click', () => {
+  resetBtn.addEventListener('click', function() {
+    console.log("Reset button CLICKED! (Basic Listener Test)"); // *** VERY BASIC LOG ***
+
     stopTimer();
     timerRunning = false;
     exercises = [];
