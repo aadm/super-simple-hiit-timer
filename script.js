@@ -141,8 +141,10 @@ function pauseTimer() {
         startBtn.disabled = false;
         pauseBtn.disabled = true;
         resetBtn.disabled = false;
+    } else {
+      console.log("pauseTimer() - timerRunning is FALSE, pause action skipped");
     }
-    console.log("pauseTimer() finished - FUNCTION END"); // Debug log at function end
+    console.log("pauseTimer() finished - FUNCTION END");
 }
 
 function resetTimer() {
