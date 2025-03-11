@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  let isRunning = false;
+  // let isRunning = false;
   let workoutState = 'idle';
   let exercises = [];
   let timerInterval; // Interval for countdown
