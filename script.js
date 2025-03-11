@@ -41,7 +41,7 @@ const predefinedExercises = [
 const predefinedWorkouts = [
   {
     name: 'Quick Burn',
-    exercises: [
+    exercises: [ // Exercises only, NO "Rest" intervals defined here anymore
       { name: 'Jumping Jacks', duration: 30 },
       { name: 'Squats', duration: 25 },
       { name: 'Push-ups', duration: 20 },
@@ -51,7 +51,7 @@ const predefinedWorkouts = [
   },
   {
     name: 'Leg Day',
-    exercises: [
+    exercises: [ // Exercises only
       { name: 'Squats', duration: 40 },
       { name: 'Lunges', duration: 40 },
       { name: 'Calf Raises', duration: 30 }
@@ -61,6 +61,7 @@ const predefinedWorkouts = [
 
 
 // --- 3. Function Definitions (Global Scope - IMPORTANT: OUTSIDE DOMContentLoaded) ---
+
 function startTimer() {
   console.log("startTimer() called - FUNCTION START");
   console.log("timerRunning:", timerRunning, "timeLeft:", timeLeft);
@@ -109,7 +110,7 @@ function startTimer() {
         if (timeLeft <= 0) {
           console.log("Exercise interval finished, timeLeft at end:", timeLeft);
           clearInterval(timerInterval);
-          // timerRunning = false; // Delayed setting
+          // timerRunning = false; // *** REMOVED this line from here ***
           // playGreenwichPips(); // DO NOT play pips again HERE
           currentExerciseIndex++;
           if (currentExerciseIndex < exercises.length) {
@@ -121,7 +122,7 @@ function startTimer() {
             pauseBtn.disabled = true;
             resetBtn.disabled = false;
           }
-          timerRunning = false; // *** NEW POSITION: Set timerRunning=false LAST ***
+          timerRunning = false; // *** KEEP timerRunning = false; OUTSIDE setInterval, AFTER calling startRestTimer or "Workout Complete" ***
         }
         timeLeft--;
       } else {
@@ -132,6 +133,7 @@ function startTimer() {
   }
   console.log("startTimer() finished - FUNCTION END");
 }
+
 
 function pauseTimer() {
   console.log("pauseTimer() called - FUNCTION START");
@@ -179,31 +181,6 @@ function playBeep() {
   beepSound.play();
 }
 
-// function startRestTimer() {
-//   currentExerciseDisplay.textContent = "Rest";
-//   timeLeft = restDuration;
-//   console.log("Starting Rest Interval - duration:", restDuration, "seconds");
-
-//   timerInterval = undefined; // *** EXPLICITLY RESET timerInterval at start of startRestTimer() ***
-//   console.log("startRestTimer() - BEFORE setting interval - timerInterval reset to:", timerInterval); // Log reset value
-
-
-//   console.log("startRestTimer() - Before setInterval, timerInterval:", timerInterval);
-//   timerInterval = setInterval(function () {
-//     updateCountdownDisplay();
-//     if (timeLeft <= 0) {
-//       console.log("Rest interval finished, timeLeft at end:", timeLeft);
-//       clearInterval(timerInterval);
-//       timerRunning = false;
-//       playBeep();
-//       currentExerciseIndex++;
-//       startTimer();
-//     }
-//     timeLeft--;
-//   }, 1000);
-//   console.log("startRestTimer() - After setInterval, timerInterval:", timerInterval);
-// }
-
 function startRestTimer() {
   currentExerciseDisplay.textContent = "Rest";
   console.log("Starting Rest Interval - duration:", restDuration, "seconds");
@@ -228,14 +205,15 @@ function startRestTimer() {
       timeLeft = restDuration; // **SET timeLeft to restDuration for NEW REST interval (only if not resuming)**
     }
     console.log("startRestTimer() - timeLeft at START of rest interval:", timeLeft); // Log timeLeft at start of rest interval
-    console.log("startRestTimer() - Before setInterval, timerInterval:", timerInterval);
 
+
+    console.log("startRestTimer() - Before setInterval, timerInterval:", timerInterval);
     timerInterval = setInterval(function () {
       updateCountdownDisplay();
       if (timeLeft <= 0) {
         console.log("Rest interval finished, timeLeft at end:", timeLeft);
         clearInterval(timerInterval);
-        // timerRunning = false;
+        timerRunning = false;
         playBeep();
         currentExerciseIndex++;
         startTimer();
@@ -294,6 +272,7 @@ function addExercise() {
   }
 }
 
+
 function createPredefinedExerciseButtons() {
   predefinedExercises.forEach(exercise => {
     const button = document.createElement('button');
@@ -305,6 +284,7 @@ function createPredefinedExerciseButtons() {
     predefinedExerciseButtonsDiv.appendChild(button);
   });
 }
+
 
 function createPredefinedWorkoutButtons() {
   predefinedWorkouts.forEach(workout => {
@@ -323,6 +303,7 @@ function createPredefinedWorkoutButtons() {
     predefinedWorkoutButtonsDiv.appendChild(button);
   });
 }
+
 
 
 // --- 4. DOMContentLoaded Event Listener (for DOM element access and event listeners) ---
