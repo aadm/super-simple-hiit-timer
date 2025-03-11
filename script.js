@@ -1,5 +1,3 @@
-console.log("Script.js file is loaded and running!"); // *** BASIC TEST LOG ***
-
 document.addEventListener('DOMContentLoaded', () => {
 
   const exerciseNameInput = document.getElementById('exercise-name');
