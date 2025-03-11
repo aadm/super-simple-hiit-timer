@@ -105,7 +105,7 @@ function startTimer() {
                 console.log("Interval finished, timeLeft at end:", timeLeft);
                 clearInterval(timerInterval);
                 timerRunning = false;
-                playBeep();
+                playGreenwichPips(); // **Play GREENWICH PIPS at the END of EXERCISE**  (SOUND REVERSED - NOW PIPS FOR EXERCISE END)
                 currentExerciseIndex++;
                 if (currentExerciseIndex < exercises.length) {
                     startRestTimer();
@@ -162,25 +162,16 @@ function updateCountdownDisplay() {
     countdownDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 }
 
-function playBeep() {
-    beepSound.play();
-}
-
 function startRestTimer() {
     currentExerciseDisplay.textContent = "Rest";
     timeLeft = restDuration;
     timerInterval = setInterval(function() {
         updateCountdownDisplay();
 
-        if (timeLeft === 5) { // **Trigger Greenwich Pips when timeLeft is exactly 5 seconds**
-          console.log("Starting Greenwich Pips countdown at timeLeft:", timeLeft); // Debug log
-          playGreenwichPips(); // Play pips at 5 seconds remaining
-        }
-
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
             timerRunning = false;
-            // playGreenwichPips(); // Play pips at the end of rest
+            playBeep(); // **Play BEEPS at the END of REST** (SOUND REVERSED - NOW BEEPS FOR REST END)
             currentExerciseIndex++;
             startTimer(); // Start next exercise after rest
         }
@@ -194,6 +185,11 @@ function stopTimer() {
     startBtn.disabled = false;
     pauseBtn.disabled = true;
     resetBtn.disabled = false;
+}
+
+
+function playBeep() {
+  beepSound.play();
 }
 
 function playGreenwichPips() {
