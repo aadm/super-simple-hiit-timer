@@ -40,6 +40,16 @@ const predefinedExercises = [
 
 const predefinedWorkouts = [
     {
+        name: 'Test WebApp',
+        exercises: [
+            { name: 'A', duration: 10 },
+            { name: 'Rest', duration: 7 },
+            { name: 'B', duration: 10 },
+            { name: 'Rest', duration: 6 },
+            { name: 'C', duration: 10 },
+        ]
+    },
+    {
         name: 'Quick Burn',
         exercises: [
             { name: 'Jumping Jacks', duration: 30 },
