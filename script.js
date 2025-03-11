@@ -171,10 +171,16 @@ function startRestTimer() {
     timeLeft = restDuration;
     timerInterval = setInterval(function() {
         updateCountdownDisplay();
+
+        if (timeLeft === 5) { // **Trigger Greenwich Pips when timeLeft is exactly 5 seconds**
+          console.log("Starting Greenwich Pips countdown at timeLeft:", timeLeft); // Debug log
+          playGreenwichPips(); // Play pips at 5 seconds remaining
+        }
+
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
             timerRunning = false;
-            playGreenwichPips(); // Play pips at the end of rest
+            // playGreenwichPips(); // Play pips at the end of rest
             currentExerciseIndex++;
             startTimer(); // Start next exercise after rest
         }
