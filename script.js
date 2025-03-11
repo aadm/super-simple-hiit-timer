@@ -1,4 +1,6 @@
 
+// --- 1. Function Definitions (Global Scope - NOT inside DOMContentLoaded) ---
+
 function startTimer() {
   console.log("startTimer() called"); // *** DEBUG LOG ***
   console.log("timerRunning:", timerRunning, "pausedTime:", pausedTime); // *** DEBUG LOG ***
@@ -68,6 +70,117 @@ function stopTimer() {
   clearInterval(timerInterval);
   timerRunning = false;
 }
+
+function resetTimer() { // Define resetTimer and any other timer functions similarly in global scope
+  console.log("resetTimer() called - FUNCTION START"); // Debug log at function start
+  timerRunning = false;
+  pausedTime = 0;
+  currentExerciseIndex = 0;
+  exercises = []; // Clear exercises (if you want reset to clear the list)
+  exerciseListUl.innerHTML = ''; // Clear displayed list
+  countdownDisplay.textContent = "00:00";
+  currentExerciseDisplay.textContent = "Ready to Start!";
+  clearInterval(timerInterval); // Clear any existing interval
+  startBtn.disabled = false;
+  pauseBtn.disabled = true;
+  resetBtn.disabled = true;
+  console.log("resetTimer() finished - FUNCTION END"); // Debug log at function end
+}
+
+function createPredefinedExerciseButtons() {
+  predefinedExercises.forEach(exercise => {
+    const button = document.createElement('button');
+    button.textContent = exercise.name;
+    button.addEventListener('click', () => {
+      exerciseNameInput.value = exercise.name; // Populate exercise name input
+      exerciseDurationInput.value = exercise.duration; // Optionally populate duration
+    });
+    predefinedExerciseButtonsDiv.appendChild(button);
+  });
+}
+
+function createPredefinedWorkoutButtons() {
+  predefinedWorkouts.forEach(workout => {
+    const button = document.createElement('button');
+    button.textContent = workout.name;
+    button.addEventListener('click', () => {
+      exercises = []; // Clear current exercises
+      exerciseListUl.innerHTML = ''; // Clear displayed list
+      restDurationInput.value = workout.restDuration; // Set rest duration from workout
+      workout.exercises.forEach(exercise => { // Add exercises from the workout
+        exercises.push({ name: exercise.name, duration: exercise.duration });
+      });
+      updateExerciseListDisplay(); // Update display with loaded workout
+      currentExerciseDisplay.textContent = "Workout Loaded!"; // Feedback message
+      countdownDisplay.textContent = "Ready to Start"; // Reset timer display
+    });
+    predefinedWorkoutButtonsDiv.appendChild(button);
+  });
+}
+
+
+function updateExerciseListDisplay() {
+  exerciseListUl.innerHTML = '';
+  exercises.forEach((exercise, index) => {
+    const li = document.createElement('li');
+    li.textContent = `${exercise.name} - ${exercise.duration} seconds`;
+    exerciseListUl.appendChild(li);
+  });
+}
+
+
+function startExercise() {
+  if (currentExerciseIndex < exercises.length) {
+    workoutState = 'exercise';
+    const currentExercise = exercises[currentExerciseIndex];
+    currentExerciseDisplay.textContent = currentExercise.name;
+    timeLeft = currentExercise.duration;
+    updateCountdownDisplay();
+    timerInterval = setInterval(countdown, 1000);
+  } else {
+    currentExerciseDisplay.textContent = "Workout Complete!";
+    stopTimer();
+    resetBtn.disabled = false;
+    workoutState = 'idle';
+  }
+}
+
+function startRest() {
+  workoutState = 'rest';
+  currentExerciseDisplay.textContent = "Rest";
+  const restDuration = parseInt(restDurationInput.value, 10);
+  timeLeft = restDuration > 0 ? restDuration : 0;
+  updateCountdownDisplay();
+  timerInterval = setInterval(countdown, 1000);
+}
+
+
+function countdown() {
+  timeLeft--;
+  updateCountdownDisplay();
+
+  if (timeLeft <= 0) {
+    clearInterval(timerInterval);
+    beepSound.play();
+
+    if (workoutState === 'exercise') {
+      startRest();
+    } else if (workoutState === 'rest') {
+      currentExerciseIndex++;
+      startExercise();
+    }
+  } else if (timeLeft === 5) {
+    greenwichPips.play();
+  }
+}
+
+function updateCountdownDisplay() {
+  const minutes = Math.floor(timeLeft / 60);
+  const seconds = timeLeft % 60;
+  countdownDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+}
+
+// --- 2. DOMContentLoaded Event Listener (for DOM-related setup) ---
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -195,39 +308,6 @@ document.addEventListener('DOMContentLoaded', () => {
   let timerRunning = false; // **NEW: Flag to track if timer is running**
   let pausedTime = 0;      // **NEW: Variable to store paused time**
 
-  // **Function to create and add predefined exercise buttons:**
-  function createPredefinedExerciseButtons() {
-    predefinedExercises.forEach(exercise => {
-      const button = document.createElement('button');
-      button.textContent = exercise.name;
-      button.addEventListener('click', () => {
-        exerciseNameInput.value = exercise.name; // Populate exercise name input
-        exerciseDurationInput.value = exercise.duration; // Optionally populate duration
-      });
-      predefinedExerciseButtonsDiv.appendChild(button);
-    });
-  }
-
-  // **Function to create and add predefined workout buttons:**
-  function createPredefinedWorkoutButtons() {
-    predefinedWorkouts.forEach(workout => {
-      const button = document.createElement('button');
-      button.textContent = workout.name;
-      button.addEventListener('click', () => {
-        exercises = []; // Clear current exercises
-        exerciseListUl.innerHTML = ''; // Clear displayed list
-        restDurationInput.value = workout.restDuration; // Set rest duration from workout
-        workout.exercises.forEach(exercise => { // Add exercises from the workout
-          exercises.push({ name: exercise.name, duration: exercise.duration });
-        });
-        updateExerciseListDisplay(); // Update display with loaded workout
-        currentExerciseDisplay.textContent = "Workout Loaded!"; // Feedback message
-        countdownDisplay.textContent = "Ready to Start"; // Reset timer display
-      });
-      predefinedWorkoutButtonsDiv.appendChild(button);
-    });
-  }
-
   // **Call the function to create workout buttons when page loads:**
   createPredefinedWorkoutButtons();
 
@@ -247,14 +327,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  function updateExerciseListDisplay() {
-    exerciseListUl.innerHTML = '';
-    exercises.forEach((exercise, index) => {
-      const li = document.createElement('li');
-      li.textContent = `${exercise.name} - ${exercise.duration} seconds`;
-      exerciseListUl.appendChild(li);
-    });
-  }
 
   startBtn.addEventListener('click', function() {
     console.log("Start button CLICKED! (Basic Listener Test)"); // *** VERY BASIC LOG ***
@@ -268,57 +340,6 @@ document.addEventListener('DOMContentLoaded', () => {
     currentExerciseIndex = 0;
     startExercise();
   });
-
-  function startExercise() {
-    if (currentExerciseIndex < exercises.length) {
-      workoutState = 'exercise';
-      const currentExercise = exercises[currentExerciseIndex];
-      currentExerciseDisplay.textContent = currentExercise.name;
-      timeLeft = currentExercise.duration;
-      updateCountdownDisplay();
-      timerInterval = setInterval(countdown, 1000);
-    } else {
-      currentExerciseDisplay.textContent = "Workout Complete!";
-      stopTimer();
-      resetBtn.disabled = false;
-      workoutState = 'idle';
-    }
-  }
-
-  function startRest() {
-    workoutState = 'rest';
-    currentExerciseDisplay.textContent = "Rest";
-    const restDuration = parseInt(restDurationInput.value, 10);
-    timeLeft = restDuration > 0 ? restDuration : 0;
-    updateCountdownDisplay();
-    timerInterval = setInterval(countdown, 1000);
-  }
-
-
-  function countdown() {
-    timeLeft--;
-    updateCountdownDisplay();
-
-    if (timeLeft <= 0) {
-      clearInterval(timerInterval);
-      beepSound.play();
-
-      if (workoutState === 'exercise') {
-        startRest();
-      } else if (workoutState === 'rest') {
-        currentExerciseIndex++;
-        startExercise();
-      }
-    } else if (timeLeft === 5) {
-      greenwichPips.play();
-    }
-  }
-
-  function updateCountdownDisplay() {
-    const minutes = Math.floor(timeLeft / 60);
-    const seconds = timeLeft % 60;
-    countdownDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-  }
 
   pauseBtn.addEventListener('click', function() {
     console.log("Pause button CLICKED! (Basic Listener Test)"); // *** VERY BASIC LOG ***
