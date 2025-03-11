@@ -101,11 +101,16 @@ function startTimer() {
 
         timerInterval = setInterval(function() {
             updateCountdownDisplay();
+
+            if (timeLeft === 5) { // **Play Greenwich Pips when timeLeft is exactly 5 seconds (BEFORE exercise ends)**
+              console.log("Starting Greenwich Pips countdown at timeLeft:", timeLeft); // Debug log
+              playGreenwichPips(); // Play pips 5 seconds before exercise ends
+            }
+
             if (timeLeft <= 0) {
                 console.log("Interval finished, timeLeft at end:", timeLeft);
                 clearInterval(timerInterval);
                 timerRunning = false;
-                playGreenwichPips(); // **Play GREENWICH PIPS at the END of EXERCISE**  (SOUND REVERSED - NOW PIPS FOR EXERCISE END)
                 currentExerciseIndex++;
                 if (currentExerciseIndex < exercises.length) {
                     startRestTimer();
