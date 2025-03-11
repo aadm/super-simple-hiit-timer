@@ -108,7 +108,7 @@ function startTimer() {
                 return;
             }
         }
-
+        console.log("startTimer() - Before setInterval, timerInterval:", timerInterval); // Log BEFORE setInterval in startTimer
         timerInterval = setInterval(function() {
             updateCountdownDisplay();
 
