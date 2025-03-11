@@ -188,9 +188,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   startBtn.addEventListener('click', () => {
-    if (exercises.length === 0 || isRunning) return;
+    if (exercises.length === 0 || timerRunning) return;
 
-    isRunning = true;
+    timerRunning = true;
     startBtn.disabled = true;
     pauseBtn.disabled = false;
     resetBtn.disabled = false;
