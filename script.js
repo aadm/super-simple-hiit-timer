@@ -118,15 +118,10 @@ function createPredefinedWorkoutButtons() {
   });
 }
 
-
-function updateExerciseListDisplay() {
-  exerciseListUl.innerHTML = '';
-  exercises.forEach((exercise, index) => {
-    const li = document.createElement('li');
-    li.textContent = `${exercise.name} - ${exercise.duration} seconds`;
-    exerciseListUl.appendChild(li);
-  });
+function playBeep() { // And playBeep, startRestTimer, stopTimer, etc.
+  beepSound.play();
 }
+
 
 
 function startExercise() {
@@ -152,6 +147,17 @@ function startRest() {
   timeLeft = restDuration > 0 ? restDuration : 0;
   updateCountdownDisplay();
   timerInterval = setInterval(countdown, 1000);
+}
+
+
+
+function updateExerciseListDisplay() {
+  exerciseListUl.innerHTML = '';
+  exercises.forEach((exercise, index) => {
+    const li = document.createElement('li');
+    li.textContent = `${exercise.name} - ${exercise.duration} seconds`;
+    exerciseListUl.appendChild(li);
+  });
 }
 
 
