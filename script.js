@@ -64,13 +64,13 @@ const predefinedWorkouts = [
       { name: 'Jump rope', duration: 60 },
       { name: 'Push-Ups', duration: 30 },
       { name: 'Wall sit', duration: 60 },
-      { name: 'Air Squats', duration: 30 },
+      { name: 'Squats', duration: 30 },
       { name: 'Push-Ups', duration: 30 },
       { name: 'Wall sit', duration: 60 },
-      { name: 'Air Squats', duration: 30 },
+      { name: 'Squats', duration: 30 },
       { name: 'Push-Ups', duration: 30 },
       { name: 'Wall sit', duration: 60 },
-      { name: 'Air Squats', duration: 30 },
+      { name: 'Squats', duration: 30 },
     ]
   },
   {
