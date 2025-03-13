@@ -174,6 +174,8 @@ function startRestTimer() {
 
   // Set the interval for the rest countdown
   timerInterval = setInterval(function () {
+    if (!timerRunning) return; // If paused, do nothing
+
     updateCountdownDisplay(); // Update the countdown display with the remaining time
 
     // // Check to play Greenwich Pips (not in rest intervals)
