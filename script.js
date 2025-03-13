@@ -98,7 +98,6 @@ function startTimer() {
 
       if (timeLeft <= 0) {
         clearInterval(timerInterval);
-        playBeep(); // Play beep sound at the end of the interval
         currentExerciseIndex++;
         if (currentExerciseIndex < exercises.length) {
           startRestTimer();
