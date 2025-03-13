@@ -82,6 +82,12 @@ function startTimer() {
       let exercise = exercises[currentExerciseIndex];
       timeLeft = exercise.duration;
       currentExerciseDisplay.textContent = exercise.name;
+      // Set the next exercise
+      if (currentExerciseIndex + 1 < exercises.length) {
+        nextExerciseDisplay.textContent = exercises[currentExerciseIndex + 1].name;
+      } else {
+        nextExerciseDisplay.textContent = "No more exercises"; // Indicate if there's no upcoming exercise
+      }
     } else {
       // No exercises remaining or added
       currentExerciseDisplay.textContent = "No exercises added!";
@@ -89,6 +95,8 @@ function startTimer() {
     }
 
     timerInterval = setInterval(function () {
+      if (!timerRunning) return; // Stop if paused
+
       updateCountdownDisplay();
 
       // Check to play Greenwich Pips at 5 seconds remaining
