@@ -196,3 +196,15 @@ button:disabled {
   display: none;
   /* This will hide the element when the class is applied */
 }
+
+#current-exercise {
+  color: #FF5733;
+  /* Change the current exercise text color for visibility */
+}
+
+#next-exercise {
+  color: #555;
+  /* A lighter color for next exercise for better visibility */
+  font-style: italic;
+  /* Italic for differentiation */
+}
