@@ -54,10 +54,23 @@ const predefinedWorkouts = [
     name: 'NYT Do-Anywhere Full-Body', // https://www.nytimes.com/2019/11/23/well/move/full-body-workout-jump-rope.html
     exercises: [ // Exercises only, NO "Rest" intervals defined here anymore
       { name: 'Jumping Jacks/Running', duration: 300 },
-      { name: 'Squats', duration: 25 },
-      { name: 'Push-ups', duration: 20 },
-      { name: 'Lunges', duration: 30 },
-      { name: 'Plank', duration: 45 }
+      { name: 'Squat thrusts/Half Burpees', duration: 240 },
+      { name: 'Jump rope', duration: 60 },
+      { name: 'Squat thrusts/Half Burpees', duration: 180 },
+      { name: 'Jump rope', duration: 60 },
+      { name: 'Squat thrusts/Half Burpees', duration: 120 },
+      { name: 'Jump rope', duration: 60 },
+      { name: 'Squat thrusts/Half Burpees', duration: 60 },
+      { name: 'Jump rope', duration: 60 },
+      { name: 'Push-Ups', duration: 30 },
+      { name: 'Wall sit', duration: 60 },
+      { name: 'Air Squats', duration: 30 },
+      { name: 'Push-Ups', duration: 30 },
+      { name: 'Wall sit', duration: 60 },
+      { name: 'Air Squats', duration: 30 },
+      { name: 'Push-Ups', duration: 30 },
+      { name: 'Wall sit', duration: 60 },
+      { name: 'Air Squats', duration: 30 },
     ]
   },
   {
