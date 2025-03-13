@@ -62,9 +62,10 @@ const predefinedWorkouts = [
 
 // --- 3. Function Definitions (Global Scope - IMPORTANT: OUTSIDE DOMContentLoaded) ---
 
+
 function startTimer() {
   console.log("Starting timer");
-  clearInterval(timerInterval); // Ensure no overlapping intervals
+  clearInterval(timerInterval);
   timerInterval = undefined;
 
   if (!timerRunning) {
@@ -86,17 +87,21 @@ function startTimer() {
       currentExerciseDisplay.textContent = "No exercises added!";
       return;
     }
+
     timerInterval = setInterval(function () {
       updateCountdownDisplay();
 
+      // Check to play Greenwich Pips at 5 seconds remaining
+      if (timeLeft === 5) {
+        playGreenwichPips(); // Play sound when there are 5 seconds left
+      }
+
       if (timeLeft <= 0) {
         clearInterval(timerInterval);
-        playBeep();
+        playBeep(); // Play beep sound at the end of the interval
         currentExerciseIndex++;
-        if (exercises[currentExerciseIndex] && exercises[currentExerciseIndex].name === 'Rest' && currentExerciseIndex < exercises.length) {
+        if (currentExerciseIndex < exercises.length) {
           startRestTimer();
-        } else if (currentExerciseIndex < exercises.length) {
-          startTimer(); // Move to next exercise
         } else {
           currentExerciseDisplay.textContent = "Workout Complete!";
           countdownDisplay.textContent = "Well done!";
@@ -105,12 +110,11 @@ function startTimer() {
           resetBtn.disabled = false;
         }
       } else {
-        timeLeft--;
+        timeLeft--; // Decrement the time left
       }
-    }, 1000);
+    }, 1000); // Check every second
   }
 }
-
 
 // function startTimer() {
 //   console.log("startTimer() called - FUNCTION START");
