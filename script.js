@@ -182,45 +182,41 @@ function playBeep() {
 }
 
 function startRestTimer() {
-  currentExerciseDisplay.textContent = "Rest";
   console.log("Starting Rest Interval - duration:", restDuration, "seconds");
 
-  timerInterval = undefined; // *** EXPLICITLY RESET timerInterval at start of startRestTimer() ***
-  console.log("startRestTimer() - BEFORE setting interval - timerInterval reset to:", timerInterval); // Log reset value
+  clearInterval(timerInterval); // Ensure any existing interval is cleared first
+  timerInterval = undefined; // Explicitly reset timerInterval
 
+  if (exercises.length > 0 && currentExerciseIndex < exercises.length) {
+    timeLeft = restDuration;  // Set timeLeft to restDuration at the start
 
-  if (!timerRunning) {
-    timerRunning = true; // Set timerRunning to true at start of rest interval
+    currentExerciseDisplay.textContent = "Rest";
+
+    timerRunning = true;
     startBtn.disabled = true;
     pauseBtn.disabled = false;
     resetBtn.disabled = false;
 
-
-    // --- RESUME LOGIC for REST INTERVAL ---
-    if (timeLeft > 0) { // **CHECK if timeLeft is ALREADY > 0 - if yes, it's a RESUME for REST**
-      console.log("Resuming REST interval - timeLeft is:", timeLeft); // RESUME SCENARIO for REST
-      // **timeLeft is already set to the paused value, NO need to reset.**
-    } else {
-      console.log("Starting NEW REST interval - timeLeft was:", timeLeft, "now set to restDuration:", restDuration); // NEW REST INTERVAL SCENARIO
-      timeLeft = restDuration; // **SET timeLeft to restDuration for NEW REST interval (only if not resuming)**
-    }
-    console.log("startRestTimer() - timeLeft at START of rest interval:", timeLeft); // Log timeLeft at start of rest interval
-
-
-    console.log("startRestTimer() - Before setInterval, timerInterval:", timerInterval);
     timerInterval = setInterval(function () {
       updateCountdownDisplay();
+
       if (timeLeft <= 0) {
-        console.log("Rest interval finished, timeLeft at end:", timeLeft);
+        console.log("Rest interval finished, transitioning to next exercise.");
         clearInterval(timerInterval);
         timerRunning = false;
         playBeep();
-        currentExerciseIndex++;
-        startTimer();
+        startTimer(); // Call to startTimer to transition to the next exercise after resting
+      } else {
+        timeLeft--;
       }
-      timeLeft--;
     }, 1000);
-    console.log("startRestTimer() - After setInterval, timerInterval:", timerInterval);
+  } else {
+    console.log("No more exercises remaining. Completion.");
+    currentExerciseDisplay.textContent = "Workout Complete!";
+    countdownDisplay.textContent = "Well done!";
+    startBtn.disabled = true;
+    pauseBtn.disabled = true;
+    resetBtn.disabled = false;
   }
 }
 
