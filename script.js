@@ -115,15 +115,15 @@ function startTimer() {
   }
 }
 
-
 function pauseTimer() {
   console.log("Pausing timer");
   if (timerRunning) {
-    timerRunning = false;
-    clearInterval(timerInterval);
-    startBtn.disabled = false;
-    pauseBtn.disabled = true;
-    resetBtn.disabled = false;
+    timerRunning = false; // Set timerRunning to false
+    clearInterval(timerInterval); // Stop the interval
+    console.log("Timer paused - timerRunning set to FALSE, timerInterval cleared:", timerInterval);
+    startBtn.disabled = false; // Enable start button
+    pauseBtn.disabled = true; // Disable pause button
+    resetBtn.disabled = false; // Enable reset button
   }
 }
 
