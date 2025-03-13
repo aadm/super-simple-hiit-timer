@@ -10,6 +10,7 @@ let exercises = [];
 let restDuration; // Will be initialized inside DOMContentLoaded from DOM
 let timerRunning = false; // Flag to track if timer is running
 let pausedTime = 0;      // Variable to store paused time (no longer used in latest version, but kept for now)
+let nextExerciseDisplay; // Declare variable for next exercise display
 
 let countdownDisplay; // Will be initialized in DOMContentLoaded from DOM
 let currentExerciseDisplay; // Will be initialized in DOMContentLoaded from DOM
@@ -318,6 +319,8 @@ document.addEventListener('DOMContentLoaded', () => {
   exerciseListUl = document.getElementById('exercise-list');
   exerciseNameInput = document.getElementById('exercise-name');
   exerciseDurationInput = document.getElementById('exercise-duration');
+  nextExerciseDisplay = document.getElementById('next-exercise');
+
   addExerciseBtn = document.getElementById('add-exercise-btn');
   restDurationInput = document.getElementById('rest-duration');
   beepSound = document.getElementById('beep-sound');
