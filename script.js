@@ -163,8 +163,14 @@ function startRestTimer() {
   clearInterval(timerInterval);
   timerInterval = undefined; // Explicitly reset timerInterval
 
-  // Initialize the time left for the rest period
-  timeLeft = restDuration;
+  // Check if we're resuming from a pause
+  if (!timerRunning && timeLeft > 0) {
+    console.log("Resuming rest interval from pause");
+  } else {
+    // Initialize the time left for the rest period
+    timeLeft = restDuration;
+  }
+
   currentExerciseDisplay.textContent = "Rest";
 
   timerRunning = true; // Start the timer
@@ -174,7 +180,10 @@ function startRestTimer() {
 
   // Set the interval for the rest countdown
   timerInterval = setInterval(function () {
-    if (!timerRunning) return; // If paused, do nothing
+    if (!timerRunning) {
+      clearInterval(timerInterval);
+      return;
+    }
 
     updateCountdownDisplay(); // Update the countdown display with the remaining time
 
