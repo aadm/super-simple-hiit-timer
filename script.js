@@ -225,32 +225,47 @@ function playBeep() {
   beepSound.play();
 }
 
-
 function startRestTimer() {
   console.log("Starting Rest Interval - duration:", restDuration, "seconds");
 
+  // Clear any existing intervals
   clearInterval(timerInterval);
-  timerInterval = undefined; // Ensure restarts clean
+  timerInterval = undefined; // Explicitly reset timerInterval
 
+  // Initialize the time left for the rest period
   timeLeft = restDuration;
   currentExerciseDisplay.textContent = "Rest";
 
-  timerRunning = true;
+  timerRunning = true; // Start the timer
   startBtn.disabled = true;
   pauseBtn.disabled = false;
   resetBtn.disabled = false;
 
+  // Set the interval for the rest countdown
   timerInterval = setInterval(function () {
-    updateCountdownDisplay();
+    updateCountdownDisplay(); // Update the countdown display with the remaining time
+
     if (timeLeft <= 0) {
-      console.log("Finished Rest Interval, moving to next exercise");
-      clearInterval(timerInterval);
-      playBeep();
-      startTimer(); // Move to the next exercise
+      console.log("Finished Rest Interval, transitioning to next exercise");
+      clearInterval(timerInterval); // Clear the rest interval
+      playBeep(); // Play beep sound to indicate end of rest
+      timerRunning = false; // Stop the timer
+
+      // Move to the next exercise if available
+      currentExerciseIndex++;
+      if (currentExerciseIndex < exercises.length) {
+        startTimer(); // Start the next exercise
+      } else {
+        currentExerciseDisplay.textContent = "Workout Complete!";
+        countdownDisplay.textContent = "Well done!";
+        startBtn.disabled = true;
+        pauseBtn.disabled = true;
+        resetBtn.disabled = false; // Enable reset button
+      }
     } else {
-      timeLeft--;
+      timeLeft--; // Decrement the time left
     }
-  }, 1000);
+  }, 1000); // Check every second
 }
 
 
