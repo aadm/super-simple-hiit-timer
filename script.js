@@ -51,11 +51,43 @@ const predefinedWorkouts = [
     ]
   },
   {
-    name: 'Leg Day',
-    exercises: [ // Exercises only
-      { name: 'Squats', duration: 40 },
-      { name: 'Lunges', duration: 40 },
-      { name: 'Calf Raises', duration: 30 }
+    name: "NYT HIIT beginners", // https://www.nytimes.com/2025/02/08/well/move/cardio-hiit-workout.html
+    exercises: [
+      { name: "High Knees", duration: 20 }, // round 1
+      { name: "Plank Punches", duration: 20 },
+      { name: "Jumping Jacks", duration: 20 },
+      { name: "Side Skaters", duration: 20 },
+      { name: "High Knees", duration: 20 },
+      { name: "Plank Punches", duration: 20 },
+      { name: "Jumping Jacks", duration: 20 },
+
+      { name: "Jump Rope", duration: 20 },  // round 2
+      { name: "High/Low Boat", duration: 20 },
+      { name: "Line Jumps", duration: 20 },
+      { name: "Push-Ups", duration: 20 },
+      { name: "Jump Rope", duration: 20 },
+      { name: "High/Low Boat", duration: 20 },
+      { name: "Line Jumps", duration: 20 },
+      { name: "Push-Ups", duration: 20 },
+
+      { name: "Burpees", duration: 20 },  // round 3
+      { name: "Russian Twists", duration: 20 },
+      { name: "Squats", duration: 20 },
+      { name: "Lunges", duration: 20 },
+      { name: "Burpees", duration: 20 },
+      { name: "Russian Twists", duration: 20 },
+      { name: "Squats", duration: 20 },
+      { name: "Lunges", duration: 20 },
+
+      { name: "Mountain limbers", duration: 20 },  // round 4
+      { name: "Push-Ups", duration: 20 },
+      { name: "Split Squats", duration: 20 },
+      { name: "Box Jumps", duration: 20 },
+      { name: "Mountain limbers", duration: 20 },
+      { name: "Push-Ups", duration: 20 },
+      { name: "Split Squats", duration: 20 },
+      { name: "Box Jumps", duration: 20 },
+
     ]
   }
 ];
