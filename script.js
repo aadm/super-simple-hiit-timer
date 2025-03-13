@@ -85,15 +85,24 @@ function startTimer() {
       currentExerciseDisplay.textContent = exercise.name;
       // Set the next exercise
       if (currentExerciseIndex + 1 < exercises.length) {
-        nextExerciseDisplay.textContent = exercises[currentExerciseIndex + 1].name;
+        let nextIndex = currentExerciseIndex + 1;
+        while (nextIndex < exercises.length && exercises[nextIndex].name === 'Rest') {
+          nextIndex++; // Skip any rest entries
+        }
+
+        if (nextIndex < exercises.length) {
+          nextExerciseDisplay.textContent = exercises[nextIndex].name;
+        } else {
+          nextExerciseDisplay.textContent = "Workout Complete!";
+        }
       } else {
-        nextExerciseDisplay.textContent = "No more exercises"; // Indicate if there's no upcoming exercise
+        nextExerciseDisplay.textContent = "No more exercises"; // If there are no more exercises
       }
     } else {
-      // No exercises remaining or added
       currentExerciseDisplay.textContent = "No exercises added!";
       return;
     }
+
 
     timerInterval = setInterval(function () {
       if (!timerRunning) return; // Stop if paused
