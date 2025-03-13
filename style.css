@@ -191,3 +191,8 @@ button:disabled {
   justify-content: space-around;
   /* **Distribute buttons more evenly on phone screens** */
 }
+
+.hidden {
+  display: none;
+  /* This will hide the element when the class is applied */
+}
