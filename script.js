@@ -136,20 +136,14 @@ function startTimer() {
 
 
 function pauseTimer() {
-  console.log("pauseTimer() called - FUNCTION START");
-  console.log("pauseTimer() - timerRunning:", timerRunning, "timeLeft:", timeLeft, "timerInterval:", timerInterval);
-
+  console.log("Pausing timer");
   if (timerRunning) {
-    timerRunning = false; // **Just set timerRunning to false** - to stop decrementing in setInterval
-    clearInterval(timerInterval); // Still clear the interval for safety and to prevent potential memory leaks
-    console.log("Timer paused - timerRunning set to FALSE, timerInterval cleared:", timerInterval);
+    timerRunning = false;
+    clearInterval(timerInterval);
     startBtn.disabled = false;
     pauseBtn.disabled = true;
     resetBtn.disabled = false;
-  } else {
-    console.log("pauseTimer() - timerRunning is FALSE, pause action skipped");
   }
-  console.log("pauseTimer() finished - FUNCTION END");
 }
 
 function resetTimer() {
