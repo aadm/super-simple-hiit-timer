@@ -89,10 +89,7 @@ function startTimer() {
     }
 
     timerInterval = setInterval(function () {
-      if (!timerRunning) {
-        clearInterval(timerInterval);
-        return;
-      }
+      updateCountdownDisplay();
 
       // Check to play Greenwich Pips at 5 seconds remaining
       if (timeLeft === 5) {
@@ -183,10 +180,7 @@ function startRestTimer() {
 
   // Set the interval for the rest countdown
   timerInterval = setInterval(function () {
-    if (!timerRunning) {
-      clearInterval(timerInterval);
-      return;
-    }
+    if (!timerRunning) return; // If paused, do nothing
 
     updateCountdownDisplay(); // Update the countdown display with the remaining time
 
