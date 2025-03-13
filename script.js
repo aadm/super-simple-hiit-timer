@@ -176,6 +176,11 @@ function startRestTimer() {
   timerInterval = setInterval(function () {
     updateCountdownDisplay(); // Update the countdown display with the remaining time
 
+    // Check to play Greenwich Pips (not in rest intervals)
+    if (timeLeft > 0 && timeLeft === 5) {
+      playGreenwichPips(); // Play sound when there are 5 seconds left
+    }
+
     if (timeLeft <= 0) {
       console.log("Finished Rest Interval, transitioning to next exercise");
       clearInterval(timerInterval); // Clear the rest interval
