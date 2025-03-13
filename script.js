@@ -63,6 +63,7 @@ const predefinedWorkouts = [
 // --- 3. Function Definitions (Global Scope - IMPORTANT: OUTSIDE DOMContentLoaded) ---
 
 function startTimer() {
+  console.log("Starting timer");
   clearInterval(timerInterval); // Ensure no overlapping intervals
   timerInterval = undefined;
 
@@ -72,36 +73,44 @@ function startTimer() {
     pauseBtn.disabled = false;
     resetBtn.disabled = false;
 
-    if (currentExerciseIndex < exercises.length) {
+    if (timeLeft > 0) {
+      // Resuming current interval
+      console.log("Resuming from paused timeLeft:", timeLeft);
+    } else if (exercises.length > 0 && currentExerciseIndex < exercises.length) {
+      // Fresh start of exercise
       let exercise = exercises[currentExerciseIndex];
       timeLeft = exercise.duration;
       currentExerciseDisplay.textContent = exercise.name;
-
-      timerInterval = setInterval(function () {
-        updateCountdownDisplay();
-
-        if (timeLeft <= 0) {
-          clearInterval(timerInterval);
-          playBeep();
-          currentExerciseIndex++;
-
-          if (exercise.name !== 'Rest') { // Only add rest interval after non-rest exercises
-            startRestTimer();
-          } else if (currentExerciseIndex < exercises.length) { // Proceed to next exercise if within the list
-            startTimer();
-          } else {
-            currentExerciseDisplay.textContent = "Workout Complete!";
-            countdownDisplay.textContent = "Well done!";
-            startBtn.disabled = true;
-            pauseBtn.disabled = true;
-          }
-        }
-
-        timeLeft--;
-      }, 1000);
+    } else {
+      // No exercises remaining or added
+      currentExerciseDisplay.textContent = "No exercises added!";
+      return;
     }
+    timerInterval = setInterval(function () {
+      updateCountdownDisplay();
+
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        playBeep();
+        currentExerciseIndex++;
+        if (exercises[currentExerciseIndex] && exercises[currentExerciseIndex].name === 'Rest' && currentExerciseIndex < exercises.length) {
+          startRestTimer();
+        } else if (currentExerciseIndex < exercises.length) {
+          startTimer(); // Move to next exercise
+        } else {
+          currentExerciseDisplay.textContent = "Workout Complete!";
+          countdownDisplay.textContent = "Well done!";
+          startBtn.disabled = true;
+          pauseBtn.disabled = true;
+          resetBtn.disabled = false;
+        }
+      } else {
+        timeLeft--;
+      }
+    }, 1000);
   }
 }
+
 
 // function startTimer() {
 //   console.log("startTimer() called - FUNCTION START");
@@ -216,44 +225,34 @@ function playBeep() {
   beepSound.play();
 }
 
+
 function startRestTimer() {
   console.log("Starting Rest Interval - duration:", restDuration, "seconds");
 
-  clearInterval(timerInterval); // Ensure any existing interval is cleared first
-  timerInterval = undefined; // Explicitly reset timerInterval
+  clearInterval(timerInterval);
+  timerInterval = undefined; // Ensure restarts clean
 
-  if (exercises.length > 0 && currentExerciseIndex < exercises.length) {
-    timeLeft = restDuration;  // Set timeLeft to restDuration at the start
+  timeLeft = restDuration;
+  currentExerciseDisplay.textContent = "Rest";
 
-    currentExerciseDisplay.textContent = "Rest";
+  timerRunning = true;
+  startBtn.disabled = true;
+  pauseBtn.disabled = false;
+  resetBtn.disabled = false;
 
-    timerRunning = true;
-    startBtn.disabled = true;
-    pauseBtn.disabled = false;
-    resetBtn.disabled = false;
-
-    timerInterval = setInterval(function () {
-      updateCountdownDisplay();
-
-      if (timeLeft <= 0) {
-        console.log("Rest interval finished, transitioning to next exercise.");
-        clearInterval(timerInterval);
-        timerRunning = false;
-        playBeep();
-        startTimer(); // Call to startTimer to transition to the next exercise after resting
-      } else {
-        timeLeft--;
-      }
-    }, 1000);
-  } else {
-    console.log("No more exercises remaining. Completion.");
-    currentExerciseDisplay.textContent = "Workout Complete!";
-    countdownDisplay.textContent = "Well done!";
-    startBtn.disabled = true;
-    pauseBtn.disabled = true;
-    resetBtn.disabled = false;
-  }
+  timerInterval = setInterval(function () {
+    updateCountdownDisplay();
+    if (timeLeft <= 0) {
+      console.log("Finished Rest Interval, moving to next exercise");
+      clearInterval(timerInterval);
+      playBeep();
+      startTimer(); // Move to the next exercise
+    } else {
+      timeLeft--;
+    }
+  }, 1000);
 }
+
 
 function stopTimer() {
   timerRunning = false;
