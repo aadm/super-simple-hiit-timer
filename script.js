@@ -74,7 +74,7 @@ const predefinedWorkouts = [
     ]
   },
   {
-    name: "NYT HIIT beginners", // https://www.nytimes.com/2025/02/08/well/move/cardio-hiit-workout.html
+    name: "NYT HIIT beginners", // https://www.nytimes.com/2025/02/08/well/move/cardio-hiit-workout.html, https://www.nytimes.com/2023/03/15/well/move/hiit-workout-beginner.html
     exercises: [
       { name: "High Knees", duration: 20 }, // round 1
       { name: "Plank Punches", duration: 20 },
