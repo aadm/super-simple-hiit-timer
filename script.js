@@ -51,6 +51,16 @@ const predefinedWorkouts = [
     ]
   },
   {
+    name: 'NYT Do-Anywhere Full-Body', // https://www.nytimes.com/2019/11/23/well/move/full-body-workout-jump-rope.html
+    exercises: [ // Exercises only, NO "Rest" intervals defined here anymore
+      { name: 'Jumping Jacks/Running', duration: 300 },
+      { name: 'Squats', duration: 25 },
+      { name: 'Push-ups', duration: 20 },
+      { name: 'Lunges', duration: 30 },
+      { name: 'Plank', duration: 45 }
+    ]
+  },
+  {
     name: "NYT HIIT beginners", // https://www.nytimes.com/2025/02/08/well/move/cardio-hiit-workout.html
     exercises: [
       { name: "High Knees", duration: 20 }, // round 1
